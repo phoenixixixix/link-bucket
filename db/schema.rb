@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_21_205348) do
+ActiveRecord::Schema.define(version: 2021_01_21_210641) do
 
   create_table "links", force: :cascade do |t|
     t.string "url_str"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2021_01_21_205348) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_links_on_user_id"
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.integer "tag_id", null: false
+    t.integer "link_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["link_id"], name: "index_taggings_on_link_id"
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -37,5 +46,7 @@ ActiveRecord::Schema.define(version: 2021_01_21_205348) do
   end
 
   add_foreign_key "links", "users"
+  add_foreign_key "taggings", "links"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "tags", "users"
 end
